@@ -9,7 +9,7 @@ import { Class, Subject, Teacher } from "@prisma/client";
 import Image from "next/image";
 import Link from "next/link";
 
-export const runtime = "edge";
+// export const runtime = "edge";
 
 type TeacherList = Teacher & { subjects: Subject[] } & { classes: Class[] };
 
