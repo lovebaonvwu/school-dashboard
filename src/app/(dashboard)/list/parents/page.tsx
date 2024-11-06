@@ -103,7 +103,7 @@ export default function Page() {
       {/* List  */}
       <Table columns={columns} renderRow={renderRow} data={parentsData} />
       {/* Pagination  */}
-      <Pagination />
+      <Pagination page={1} count={1} />
     </div>
   );
 }
