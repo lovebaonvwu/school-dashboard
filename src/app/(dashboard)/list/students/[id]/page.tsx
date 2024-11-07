@@ -4,8 +4,6 @@ import Performance from "@/components/Performance";
 import Image from "next/image";
 import Link from "next/link";
 
-// export const runtime = "edge";
-
 export default function Page() {
   return (
     <div className="flex-1 p-4 flex flex-col gap-4 xl:flex-row">
@@ -138,7 +136,10 @@ export default function Page() {
             <Link className="p-3 rounded-md bg-lama-sky-light" href="/">
               Student&apos;s Lessons
             </Link>
-            <Link className="p-3 rounded-md bg-lama-purple-light" href="/">
+            <Link
+              className="p-3 rounded-md bg-lama-purple-light"
+              href={`/list/teachers?classId=${2}`}
+            >
               Student&apos;s Teachers
             </Link>
             <Link className="p-3 rounded-md bg-pink-50" href="/">

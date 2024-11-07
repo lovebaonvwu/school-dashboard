@@ -5,11 +5,9 @@ import TableSearch from "@/components/TableSearch";
 import { role, teachersData } from "@/lib/data";
 import prisma from "@/lib/prisma";
 import { ITEM_PER_PAGE } from "@/lib/settings";
-import { Class, Subject, Teacher } from "@prisma/client";
+import { Class, Prisma, Subject, Teacher } from "@prisma/client";
 import Image from "next/image";
 import Link from "next/link";
-
-// export const runtime = "edge";
 
 type TeacherList = Teacher & { subjects: Subject[] } & { classes: Class[] };
 
@@ -87,7 +85,7 @@ const renderRow = (item: TeacherList) => (
           // <button className="w-7 h-7 flex items-center justify-center rounded-full bg-lama-purple">
           //   <Image src="/delete.png" alt="delete" width={16} height={16} />
           // </button>
-          <FormModal table="teacher" type="delete" id={parseInt(item.id)} />
+          <FormModal table="teacher" type="delete" id={item.id} />
         )}
       </div>
     </td>
@@ -102,8 +100,30 @@ export default async function Page({
   const { page, ...queryParams } = searchParams;
   const currentPage = page ? parseInt(page) : 1;
 
+  const query: Prisma.TeacherWhereInput = {};
+
+  if (queryParams) {
+    for (const [key, value] of Object.entries(queryParams)) {
+      if (value !== undefined) {
+        switch (key) {
+          case "classId":
+            query.lessons = {
+              some: {
+                classId: parseInt(value),
+              },
+            };
+            break;
+          case "search":
+            query.name = { contains: value, mode: "insensitive" };
+            break;
+        }
+      }
+    }
+  }
+
   const [data, count] = await prisma.$transaction([
     prisma.teacher.findMany({
+      where: query,
       include: {
         subjects: true,
         classes: true,
@@ -111,7 +131,7 @@ export default async function Page({
       take: ITEM_PER_PAGE,
       skip: ITEM_PER_PAGE * (currentPage - 1),
     }),
-    prisma.teacher.count(),
+    prisma.teacher.count({ where: query }),
   ]);
 
   return (
