@@ -155,7 +155,10 @@ export default function Page() {
             <Link className="p-3 rounded-md bg-lama-sky-light" href="/">
               Teacher&apos;s Classes
             </Link>
-            <Link className="p-3 rounded-md bg-lama-purple-light" href="/">
+            <Link
+              className="p-3 rounded-md bg-lama-purple-light"
+              href={`/list/students?teacherId=${"teacher2"}`}
+            >
               Teacher&apos;s Students
             </Link>
             <Link className="p-3 rounded-md bg-lama-yellow-light" href="/">

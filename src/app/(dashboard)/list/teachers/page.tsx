@@ -116,6 +116,8 @@ export default async function Page({
           case "search":
             query.name = { contains: value, mode: "insensitive" };
             break;
+          default:
+            break;
         }
       }
     }
