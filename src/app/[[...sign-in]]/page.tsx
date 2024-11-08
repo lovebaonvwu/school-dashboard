@@ -20,7 +20,7 @@ export default function Page() {
   }, [user, router]);
 
   return (
-    <div className="h-screen flex items-center justify-center bg-lama-sky-light">
+    <div className="h-screen flex flex-col gap-8 items-center justify-center bg-lama-sky-light">
       <SignIn.Root>
         <SignIn.Step
           name="start"
@@ -63,6 +63,18 @@ export default function Page() {
           </SignIn.Action>
         </SignIn.Step>
       </SignIn.Root>
+
+      <div className="bg-white p-4 flex flex-col gap-2">
+        <h1>Feel free to use the following account to play.</h1>
+
+        <span>admin/admin</span>
+
+        <span>teacher/teacher</span>
+
+        <span>student/student</span>
+
+        <span>parent/parent</span>
+      </div>
     </div>
   );
 }
