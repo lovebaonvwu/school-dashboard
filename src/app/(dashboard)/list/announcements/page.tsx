@@ -11,7 +11,7 @@ import Link from "next/link";
 
 type AnnouncementList = Announcement & { class: Class };
 
-const { sessionClaims } = await auth();
+const { sessionClaims } = auth();
 const role = (sessionClaims?.publicMetadata as { role?: string })?.role;
 
 const columns = [
