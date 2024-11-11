@@ -16,7 +16,9 @@ export default async function Page({
   searchParams: { [key: string]: string | undefined };
 }) {
   const { sessionClaims } = await auth();
-  const role = (sessionClaims?.publicMetadata as { role?: string })?.role;
+  console.log(sessionClaims);
+  const role = (sessionClaims?.metadata as { role?: string })?.role;
+  console.log(role);
 
   const columns = [
     {
