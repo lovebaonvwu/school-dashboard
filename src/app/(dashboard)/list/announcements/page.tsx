@@ -15,10 +15,9 @@ export default async function Page({
 }: {
   searchParams: { [key: string]: string | undefined };
 }) {
-  const { sessionClaims } = await auth();
-  console.log(sessionClaims);
+  const { userId, sessionClaims } = await auth();
   const role = (sessionClaims?.metadata as { role?: string })?.role;
-  console.log(role);
+  const currentUserId = userId;
 
   const columns = [
     {
@@ -50,7 +49,7 @@ export default async function Page({
       className="border-b border-gray-200 even:bg-slate-50 text-sm hover:bg-lama-purple-light"
     >
       <td className="flex items-center gap-4 p-4">{item.title}</td>
-      <td>{item.class.name}</td>
+      <td>{item.class?.name || "-"}</td>
       <td className="hidden md:table-cell">
         {new Intl.DateTimeFormat("en-US").format(item.date)}
       </td>
@@ -96,6 +95,17 @@ export default async function Page({
       }
     }
   }
+
+  const roleConditions = {
+    teacher: { lessons: { some: { teacherId: currentUserId! } } },
+    student: { students: { some: { id: currentUserId! } } },
+    parent: { students: { some: { parentId: currentUserId! } } },
+  };
+
+  query.OR = [
+    { classId: null },
+    { class: roleConditions[role as keyof typeof roleConditions] || {} },
+  ];
 
   const [data, count] = await prisma.$transaction([
     prisma.announcement.findMany({
