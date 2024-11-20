@@ -39,13 +39,6 @@ export default function ClassForm({
 
   const router = useRouter();
 
-  const { teachers, grades } = relatedData;
-
-  const onSubmit = handleSubmit((data) => {
-    console.log("submit data:", data);
-    formAction(data);
-  });
-
   useEffect(() => {
     if (state.success) {
       toast(`Class has been ${type === "create" ? "created" : "updated"}.`);
@@ -53,6 +46,12 @@ export default function ClassForm({
       setOpen(false);
     }
   }, [state]);
+
+  const onSubmit = handleSubmit((data) => {
+    formAction(data);
+  });
+
+  const { teachers, grades } = relatedData;
 
   return (
     <form className="flex flex-col gap-8" onSubmit={onSubmit}>

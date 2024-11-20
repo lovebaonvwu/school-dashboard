@@ -21,6 +21,7 @@ export default function SubjectForm({
   data?: any;
   relatedData?: any;
 }) {
+  console.log("data", data);
   const {
     register,
     handleSubmit,
