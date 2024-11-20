@@ -7,3 +7,14 @@ export const subjectSchema = z.object({
 });
 
 export type SubjectSchema = z.infer<typeof subjectSchema>;
+
+export const classSchema = z.object({
+  id: z.coerce.number().optional(),
+  name: z.string().min(1, { message: "Class name is required." }),
+  capacity: z.coerce.number().min(1, { message: "Capacity is required." }),
+  gradeId: z.coerce.number().min(1, { message: "Grade is required." }),
+  supervisorId: z.coerce.string().optional(),
+  teachers: z.array(z.string()),
+});
+
+export type ClassSchema = z.infer<typeof classSchema>;

@@ -1,6 +1,6 @@
 "use client";
 
-import { deleteSubject } from "@/lib/actions";
+import { deleteClass, deleteSubject } from "@/lib/actions";
 import dynamic from "next/dynamic";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -13,17 +13,17 @@ import { FormContainerProps } from "./FormContainer";
 
 const deleteActionMap = {
   subject: deleteSubject,
-  class: deleteSubject,
-  teacher: deleteSubject,
-  student: deleteSubject,
-  parent: deleteSubject,
-  lesson: deleteSubject,
-  exam: deleteSubject,
-  assignment: deleteSubject,
-  result: deleteSubject,
-  attendance: deleteSubject,
-  event: deleteSubject,
-  announcement: deleteSubject,
+  class: deleteClass,
+  teacher: deleteClass,
+  student: deleteClass,
+  parent: deleteClass,
+  lesson: deleteClass,
+  exam: deleteClass,
+  assignment: deleteClass,
+  result: deleteClass,
+  attendance: deleteClass,
+  event: deleteClass,
+  announcement: deleteClass,
 };
 
 const TeacherForm = dynamic(() => import("./forms/TeacherForm"), {
@@ -33,7 +33,10 @@ const StudentForm = dynamic(() => import("./forms/StudentForm"), {
   loading: () => <h1>Loading StudentForm...</h1>,
 });
 const SubjectForm = dynamic(() => import("./forms/SubjectForm"), {
-  loading: () => <h1>Loading StudentForm...</h1>,
+  loading: () => <h1>Loading SubjectForm...</h1>,
+});
+const ClassForm = dynamic(() => import("./forms/ClassForm"), {
+  loading: () => <h1>Loading ClassForm...</h1>,
 });
 
 const forms: {
@@ -62,6 +65,14 @@ const forms: {
   ),
   subject: (setOpen, type, data, relatedData) => (
     <SubjectForm
+      setOpen={setOpen}
+      type={type}
+      data={data}
+      relatedData={relatedData}
+    />
+  ),
+  class: (setOpen, type, data, relatedData) => (
+    <ClassForm
       setOpen={setOpen}
       type={type}
       data={data}
