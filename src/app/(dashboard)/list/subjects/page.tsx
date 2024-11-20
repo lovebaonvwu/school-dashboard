@@ -1,3 +1,4 @@
+import FormContainer from "@/components/FormContainer";
 import FormModal from "@/components/FormModal";
 import Pagination from "@/components/Pagination";
 import Table from "@/components/Table";
@@ -56,8 +57,8 @@ export default async function Page({
             //   <Image src="/delete.png" alt="delete" width={16} height={16} />
             // </button>
             <>
-              <FormModal table="subject" type="update" data={item} />
-              <FormModal table="subject" type="delete" id={item.id} />
+              <FormContainer table="subject" type="update" data={item} />
+              <FormContainer table="subject" type="delete" id={item.id} />
             </>
           )}
         </div>
@@ -114,7 +115,7 @@ export default async function Page({
               // <button className="w-8 h-8 flex items-center justify-center rounded-full bg-lama-yellow">
               //   <Image src="/plus.png" alt="filter" width={14} height={14} />
               // </button>
-              <FormModal table="subject" type="create" />
+              <FormContainer table="subject" type="create" />
             )}
           </div>
         </div>
