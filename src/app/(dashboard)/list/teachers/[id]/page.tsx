@@ -5,7 +5,7 @@ import Performance from "@/components/Performance";
 import Image from "next/image";
 import Link from "next/link";
 
-export default function Page() {
+export default async function Page({ params }: { params: { id: string } }) {
   return (
     <div className="flex-1 p-4 flex flex-col gap-4 xl:flex-row">
       {/* left  */}

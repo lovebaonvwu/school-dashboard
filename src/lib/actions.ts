@@ -1,6 +1,11 @@
 "use server";
 
-import { ClassSchema, SubjectSchema } from "./formValidationSchemas";
+import { clerkClient } from "@clerk/nextjs/server";
+import {
+  ClassSchema,
+  SubjectSchema,
+  TeacherSchema,
+} from "./formValidationSchemas";
 import prisma from "./prisma";
 
 type CurrentState = { success: boolean; error: boolean };
@@ -134,6 +139,95 @@ export const deleteClass = async (
     });
 
     // revalidatePath("/list/classes");
+
+    return { success: true, error: false };
+  } catch (error) {
+    console.log(error);
+    return { success: false, error: true };
+  }
+};
+
+// teacher actions
+
+export const createTeacher = async (
+  currentState: CurrentState,
+  data: TeacherSchema
+) => {
+  console.log("create data", data);
+  try {
+    const user = await clerkClient.users.createUser({
+      username: data.username,
+      password: data.password,
+      firstName: data.name,
+      lastName: data.surname,
+      publicMetadata: { role: "teacher" },
+    });
+
+    await prisma.teacher.create({
+      data: {
+        id: user.id,
+        username: data.username,
+        name: data.name,
+        surname: data.surname,
+        email: data.email,
+        phone: data.phone,
+        address: data.address,
+        img: data.img,
+        bloodType: data.bloodType,
+        sex: data.sex,
+        birthday: data.birthday,
+        subjects: {
+          connect: data.subjects?.map((subjectId: string) => ({
+            id: parseInt(subjectId),
+          })),
+        },
+      },
+    });
+
+    // revalidatePath("/list/teachers");
+
+    return { success: true, error: false };
+  } catch (error) {
+    console.log(error);
+    return { success: false, error: true };
+  }
+};
+
+export const updateTeacher = async (
+  currentState: CurrentState,
+  data: TeacherSchema
+) => {
+  try {
+    // await prisma.teacher.update({
+    //   where: {
+    //     id: data.id,
+    //   },
+    //   data,
+    // });
+
+    // revalidatePath("/list/teachers");
+
+    return { success: true, error: false };
+  } catch (error) {
+    console.log(error);
+    return { success: false, error: true };
+  }
+};
+
+export const deleteTeacher = async (
+  currentState: CurrentState,
+  data: FormData
+) => {
+  const id = data.get("id") as string;
+
+  try {
+    // await prisma.teacher.delete({
+    //   where: {
+    //     id: parseInt(id),
+    //   },
+    // });
+
+    // revalidatePath("/list/teachers");
 
     return { success: true, error: false };
   } catch (error) {

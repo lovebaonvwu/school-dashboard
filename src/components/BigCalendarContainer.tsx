@@ -12,7 +12,7 @@ export default async function BigCalendarContainer({
   const dataRes = await prisma.lesson.findMany({
     where: {
       ...(type === "teacherId"
-        ? { teacherId: id as string }
+        ? { teacherId: id.toString() }
         : { classId: id as number }),
     },
   });
