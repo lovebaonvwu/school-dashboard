@@ -10,7 +10,7 @@ import { Dispatch, SetStateAction, useEffect } from "react";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 
-export default function ClassForm({
+export default function ExamForm({
   setOpen,
   type,
   data,
@@ -45,7 +45,7 @@ export default function ClassForm({
       router.refresh();
       setOpen(false);
     }
-  }, [state]);
+  }, [state, router, type, setOpen]);
 
   const onSubmit = handleSubmit((data) => {
     formAction(data);

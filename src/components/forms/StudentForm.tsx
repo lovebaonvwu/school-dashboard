@@ -49,7 +49,7 @@ export default function StudentForm({
       router.refresh();
       setOpen(false);
     }
-  }, [state]);
+  }, [state, router, type, setOpen]);
 
   const onSubmit = handleSubmit((data) => {
     formAction({ ...data, img: img?.secure_url });

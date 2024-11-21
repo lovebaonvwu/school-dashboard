@@ -3,8 +3,18 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import InputField from "../InputField";
-import { subjectSchema, SubjectSchema } from "@/lib/formValidationSchemas";
-import { createSubject, updateSubject } from "@/lib/actions";
+import {
+  ExamSchema,
+  examSchema,
+  subjectSchema,
+  SubjectSchema,
+} from "@/lib/formValidationSchemas";
+import {
+  createExam,
+  createSubject,
+  updateExam,
+  updateSubject,
+} from "@/lib/actions";
 import { useFormState } from "react-dom";
 import { Dispatch, SetStateAction, useEffect } from "react";
 import { toast } from "react-toastify";
@@ -26,12 +36,12 @@ export default function SubjectForm({
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<SubjectSchema>({
-    resolver: zodResolver(subjectSchema),
+  } = useForm<ExamSchema>({
+    resolver: zodResolver(examSchema),
   });
 
   const [state, formAction] = useFormState(
-    type === "create" ? createSubject : updateSubject,
+    type === "create" ? createExam : updateExam,
     {
       success: false,
       error: false,
@@ -42,7 +52,7 @@ export default function SubjectForm({
 
   useEffect(() => {
     if (state.success) {
-      toast(`Subject has been ${type === "create" ? "created" : "updated"}.`);
+      toast(`Exam has been ${type === "create" ? "created" : "updated"}.`);
       router.refresh();
       setOpen(false);
     }
@@ -52,20 +62,37 @@ export default function SubjectForm({
     formAction(data);
   });
 
-  const { teachers } = relatedData;
+  const { lessons } = relatedData;
+  console.log("lessons:", lessons);
 
   return (
     <form className="flex flex-col gap-8" onSubmit={onSubmit}>
       <h1 className="text-xl font-semibold">
-        {type === "create" ? "Create a new subject" : "Update the subject"}
+        {type === "create" ? "Create a new exam" : "Update the exam"}
       </h1>
       <div className="flex justify-between flex-wrap gap-4">
         <InputField
-          label="Subject name"
-          name="name"
-          defaultValue={data?.name}
+          label="Exam title"
+          name="title"
+          defaultValue={data?.title}
           register={register}
-          error={errors?.name}
+          error={errors?.title}
+        />
+        <InputField
+          label="Start Date"
+          name="startTime"
+          defaultValue={data?.startTime}
+          register={register}
+          error={errors?.startTime}
+          type="datetime-local"
+        />
+        <InputField
+          label="End Date"
+          name="endTime"
+          defaultValue={data?.endTime}
+          register={register}
+          error={errors?.endTime}
+          type="datetime-local"
         />
         {data && (
           <InputField
@@ -78,24 +105,21 @@ export default function SubjectForm({
           />
         )}
         <div className="flex flex-col gap-2 w-full md:w-1/4">
-          <label className="text-xs text-gray-500">Teachers</label>
+          <label className="text-xs text-gray-500">Lessons</label>
           <select
-            multiple
             className="ring-[1.5px] ring-gray-300 p-2 rounded-md text-sm w-full"
-            {...register("teachers")}
-            defaultValue={data?.teachers}
+            {...register("lessonId")}
+            defaultValue={data?.lessonId}
           >
-            {teachers.map(
-              (teacher: { id: string; name: string; surname: string }) => (
-                <option value={teacher.id} key={teacher.id}>
-                  {teacher.name + " " + teacher.surname}
-                </option>
-              )
-            )}
+            {lessons.map((lesson: { id: number; name: string }) => (
+              <option value={lesson.id} key={lesson.id}>
+                {lesson.name}
+              </option>
+            ))}
           </select>
-          {errors.teachers?.message && (
+          {errors.lessonId?.message && (
             <p className="text-xs text-red-400">
-              {errors.teachers.message.toString()}
+              {errors.lessonId.message.toString()}
             </p>
           )}
         </div>
