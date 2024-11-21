@@ -133,10 +133,20 @@ export default function TeacherForm({
           label="Birthday"
           name="birthday"
           type="date"
-          defaultValue={data?.birthday}
+          defaultValue={data?.birthday.toISOString().split("T")[0]}
           register={register}
           error={errors?.birthday}
         />
+        {data && (
+          <InputField
+            label="Id"
+            name="id"
+            defaultValue={data.id}
+            register={register}
+            error={errors?.id}
+            hidden
+          />
+        )}
         <div className="flex flex-col gap-2 w-full md:w-1/4">
           <label className="text-xs text-gray-500">Sex</label>
           <select
