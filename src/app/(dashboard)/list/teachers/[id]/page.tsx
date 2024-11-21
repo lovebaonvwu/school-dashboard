@@ -175,7 +175,7 @@ export default async function Page({
         {/* bottom  */}
         <div className="mt-4 bg-white rounded-md p-4 h-[800px]">
           <h1>Teacher&apos;s Schedule</h1>
-          <BigCalendarContainer type="teacherId" id={1} />
+          <BigCalendarContainer type="teacherId" id={teacher.id} />
         </div>
       </div>
       {/* right  */}
