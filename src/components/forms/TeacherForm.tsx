@@ -23,6 +23,8 @@ export default function TeacherForm({
   data?: any;
   relatedData?: any;
 }) {
+  console.log("current: ", process.env.NODE_ENV);
+
   const {
     register,
     handleSubmit,
